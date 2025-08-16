@@ -17,6 +17,12 @@ const initialCVData: CVData = {
     education: [],
     skills: [],
     customSections: []
+  },
+  layout: {
+    columns: 1,
+    sectionOrder: ["experience", "education", "skills", "customSections"],
+    leftColumnSections: [],
+    rightColumnSections: []
   }
 };
 
@@ -38,6 +44,13 @@ export const CVMaker = () => {
     setCVData(prev => ({
       ...prev,
       sections: { ...prev.sections, ...updates }
+    }));
+  };
+
+  const updateLayout = (updates: Partial<CVData['layout']>) => {
+    setCVData(prev => ({
+      ...prev,
+      layout: { ...prev.layout, ...updates }
     }));
   };
 
@@ -154,6 +167,12 @@ export const CVMaker = () => {
             ]
           }
         ]
+      },
+      layout: {
+        columns: 1,
+        sectionOrder: ["experience", "education", "skills", "customSections"],
+        leftColumnSections: [],
+        rightColumnSections: []
       }
     };
     setCVData(sampleData);
@@ -166,6 +185,7 @@ export const CVMaker = () => {
           cvData={cvData}
           updatePersonalInfo={updatePersonalInfo}
           updateSections={updateSections}
+          updateLayout={updateLayout}
           loadSampleData={loadSampleData}
         />
         <main className="flex-1 bg-muted/20">

@@ -1,4 +1,4 @@
-import { Plus, FileText, User, Briefcase, GraduationCap, Award, TestTube } from "lucide-react";
+import { Plus, FileText, User, Briefcase, GraduationCap, Award, TestTube, Layout } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -18,15 +18,17 @@ import { EducationForm } from "./forms/EducationForm";
 import { SkillsForm } from "./forms/SkillsForm";
 import { CustomSectionForm } from "./forms/CustomSectionForm";
 import { CVData } from "./types";
+import { LayoutControls } from "./LayoutControls";
 
 interface CVSidebarProps {
   cvData: CVData;
   updatePersonalInfo: (updates: Partial<CVData['personalInfo']>) => void;
   updateSections: (updates: Partial<CVData['sections']>) => void;
+  updateLayout: (updates: Partial<CVData['layout']>) => void;
   loadSampleData: () => void;
 }
 
-export const CVSidebar = ({ cvData, updatePersonalInfo, updateSections, loadSampleData }: CVSidebarProps) => {
+export const CVSidebar = ({ cvData, updatePersonalInfo, updateSections, updateLayout, loadSampleData }: CVSidebarProps) => {
   return (
     <Sidebar className="w-80 border-r border-border">
       <div className="flex items-center justify-between p-4 border-b border-border">
@@ -49,9 +51,10 @@ export const CVSidebar = ({ cvData, updatePersonalInfo, updateSections, loadSamp
       <SidebarContent>
         <ScrollArea className="flex-1">
           <Tabs defaultValue="personal" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mx-4 my-2">
+            <TabsList className="grid w-full grid-cols-3 mx-4 my-2">
               <TabsTrigger value="personal" className="text-xs">Personal</TabsTrigger>
               <TabsTrigger value="sections" className="text-xs">Sections</TabsTrigger>
+              <TabsTrigger value="layout" className="text-xs">Layout</TabsTrigger>
             </TabsList>
             
             <TabsContent value="personal" className="px-4 pb-4">
@@ -118,6 +121,21 @@ export const CVSidebar = ({ cvData, updatePersonalInfo, updateSections, loadSamp
                   <CustomSectionForm 
                     customSections={cvData.sections.customSections}
                     updateCustomSections={(customSections) => updateSections({ customSections })}
+                  />
+                </SidebarGroupContent>
+              </SidebarGroup>
+            </TabsContent>
+
+            <TabsContent value="layout" className="px-4 pb-4">
+              <SidebarGroup>
+                <SidebarGroupLabel className="flex items-center gap-2">
+                  <Layout className="h-4 w-4" />
+                  Layout & Sections
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <LayoutControls 
+                    layout={cvData.layout}
+                    updateLayout={updateLayout}
                   />
                 </SidebarGroupContent>
               </SidebarGroup>

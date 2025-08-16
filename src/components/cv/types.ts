@@ -53,7 +53,15 @@ export interface CVSections {
   customSections: CustomSection[];
 }
 
+export interface CVLayout {
+  columns: 1 | 2;
+  sectionOrder: string[];
+  leftColumnSections: string[];
+  rightColumnSections: string[];
+}
+
 export interface CVData {
   personalInfo: PersonalInfo;
   sections: CVSections;
+  layout: CVLayout;
 }
