@@ -20,7 +20,7 @@ export const CVPreview = ({ cvData }: CVPreviewProps) => {
     try {
       toast("Generating PDF...");
       
-      // Add CSS for better page breaks
+      // Add CSS for better rendering
       const style = document.createElement('style');
       style.textContent = `
         .cv-section { 
@@ -32,20 +32,40 @@ export const CVPreview = ({ cvData }: CVPreviewProps) => {
           page-break-inside: avoid; 
           break-inside: avoid;
         }
+        /* Force grid to render properly */
+        .grid { 
+          display: block !important; 
+        }
+        .grid > div { 
+          display: block !important; 
+          margin-bottom: 2rem;
+        }
       `;
       document.head.appendChild(style);
 
+      // Wait for styles to apply and fonts to load
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
       const canvas = await html2canvas(previewRef.current, {
-        scale: 2,
+        scale: 1.5,
         useCORS: true,
-        allowTaint: true,
+        allowTaint: false,
         backgroundColor: "#ffffff",
+        width: previewRef.current.scrollWidth,
         height: previewRef.current.scrollHeight,
-        windowHeight: previewRef.current.scrollHeight
+        scrollX: 0,
+        scrollY: 0,
+        foreignObjectRendering: false,
+        logging: false
       });
 
       // Remove the style after capture
       document.head.removeChild(style);
+
+      // Validate canvas
+      if (!canvas || canvas.width === 0 || canvas.height === 0) {
+        throw new Error("Failed to generate canvas");
+      }
 
       const pdf = new jsPDF({
         orientation: "portrait",
