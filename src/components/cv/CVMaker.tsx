@@ -3,6 +3,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { CVSidebar } from "./CVSidebar";
 import { CVPreview } from "./CVPreview";
 import { CVData } from "./types";
+import { useDebounce } from "@/hooks/use-debounce";
 
 const initialCVData: CVData = {
   personalInfo: {
@@ -188,7 +189,7 @@ export const CVMaker = () => {
           updateLayout={updateLayout}
           loadSampleData={loadSampleData}
         />
-        <main className="flex-1 bg-muted/20">
+        <main className="flex flex-1 justify-center bg-muted/20">
           <CVPreview cvData={cvData} />
         </main>
       </div>
