@@ -20,14 +20,33 @@ export const CVPreview = ({ cvData }: CVPreviewProps) => {
     try {
       toast("Generating PDF...");
       
+      // Add CSS for better page breaks
+      const style = document.createElement('style');
+      style.textContent = `
+        .cv-section { 
+          page-break-inside: avoid; 
+          break-inside: avoid;
+          margin-bottom: 24px;
+        }
+        .cv-item { 
+          page-break-inside: avoid; 
+          break-inside: avoid;
+        }
+      `;
+      document.head.appendChild(style);
+
       const canvas = await html2canvas(previewRef.current, {
         scale: 2,
         useCORS: true,
         allowTaint: true,
-        backgroundColor: "#ffffff"
+        backgroundColor: "#ffffff",
+        height: previewRef.current.scrollHeight,
+        windowHeight: previewRef.current.scrollHeight
       });
 
-      const imgData = canvas.toDataURL("image/png");
+      // Remove the style after capture
+      document.head.removeChild(style);
+
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
@@ -38,37 +57,52 @@ export const CVPreview = ({ cvData }: CVPreviewProps) => {
       const pdfHeight = pdf.internal.pageSize.getHeight();
       const imgWidth = canvas.width;
       const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const imgX = (pdfWidth - imgWidth * ratio) / 2;
-      const imgY = 0;
+      
+      // Calculate scaling to fit A4 width
+      const scale = pdfWidth / (imgWidth * 0.264583); // Convert px to mm
+      const scaledHeight = (imgHeight * 0.264583) * scale;
 
-      // Calculate how many pages we need
-      const totalHeight = imgHeight * ratio;
-      const pagesNeeded = Math.ceil(totalHeight / pdfHeight);
+      // Calculate how many A4 pages we need
+      const pagesNeeded = Math.ceil(scaledHeight / pdfHeight);
 
       for (let i = 0; i < pagesNeeded; i++) {
         if (i > 0) {
           pdf.addPage();
         }
         
-        const sourceY = i * (imgHeight / pagesNeeded);
-        const sourceHeight = imgHeight / pagesNeeded;
+        // Calculate the portion of the image for this page
+        const sourceY = (i * pdfHeight) / scale / 0.264583;
+        const sourceHeight = Math.min(
+          pdfHeight / scale / 0.264583,
+          imgHeight - sourceY
+        );
         
-        // Create a new canvas for each page
+        // Create a canvas for this page
         const pageCanvas = document.createElement("canvas");
         const pageCtx = pageCanvas.getContext("2d");
         pageCanvas.width = imgWidth;
         pageCanvas.height = sourceHeight;
         
         if (pageCtx) {
+          pageCtx.fillStyle = "#ffffff";
+          pageCtx.fillRect(0, 0, imgWidth, sourceHeight);
+          
           pageCtx.drawImage(
-            canvas, 
+            canvas,
             0, sourceY, imgWidth, sourceHeight,
             0, 0, imgWidth, sourceHeight
           );
           
           const pageImgData = pageCanvas.toDataURL("image/png");
-          pdf.addImage(pageImgData, "PNG", imgX, imgY, imgWidth * ratio, sourceHeight * ratio);
+          const pageHeight = Math.min(pdfHeight, scaledHeight - (i * pdfHeight));
+          
+          pdf.addImage(
+            pageImgData, 
+            "PNG", 
+            0, 0, 
+            pdfWidth, 
+            pageHeight
+          );
         }
       }
 
@@ -102,7 +136,9 @@ export const CVPreview = ({ cvData }: CVPreviewProps) => {
             style={{ 
               fontFamily: "system-ui, -apple-system, sans-serif",
               fontSize: "12px",
-              lineHeight: "1.4"
+              lineHeight: "1.4",
+              width: "210mm",
+              maxWidth: "210mm"
             }}
           >
             <CVDocument cvData={cvData} />

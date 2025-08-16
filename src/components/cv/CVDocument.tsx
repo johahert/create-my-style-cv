@@ -10,7 +10,7 @@ export const CVDocument = ({ cvData }: CVDocumentProps) => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="text-center border-b-2 border-gray-800 pb-4">
+      <div className="text-center border-b-2 border-gray-800 pb-4 cv-section">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">
           {personalInfo.fullName || "Your Name"}
         </h1>
@@ -23,7 +23,7 @@ export const CVDocument = ({ cvData }: CVDocumentProps) => {
 
       {/* Summary */}
       {personalInfo.summary && (
-        <div>
+        <div className="cv-section">
           <h2 className="text-xl font-bold text-gray-800 mb-2 border-b border-gray-300 pb-1">
             Professional Summary
           </h2>
@@ -33,13 +33,13 @@ export const CVDocument = ({ cvData }: CVDocumentProps) => {
 
       {/* Experience */}
       {sections.experience.length > 0 && (
-        <div>
+        <div className="cv-section">
           <h2 className="text-xl font-bold text-gray-800 mb-3 border-b border-gray-300 pb-1">
             Professional Experience
           </h2>
           <div className="space-y-4">
             {sections.experience.map((exp) => (
-              <div key={exp.id}>
+              <div key={exp.id} className="cv-item">
                 <div className="flex justify-between items-start mb-1">
                   <div>
                     <h3 className="font-semibold text-gray-800">{exp.position}</h3>
@@ -60,13 +60,13 @@ export const CVDocument = ({ cvData }: CVDocumentProps) => {
 
       {/* Education */}
       {sections.education.length > 0 && (
-        <div>
+        <div className="cv-section">
           <h2 className="text-xl font-bold text-gray-800 mb-3 border-b border-gray-300 pb-1">
             Education
           </h2>
           <div className="space-y-4">
             {sections.education.map((edu) => (
-              <div key={edu.id}>
+              <div key={edu.id} className="cv-item">
                 <div className="flex justify-between items-start mb-1">
                   <div>
                     <h3 className="font-semibold text-gray-800">{edu.degree}</h3>
@@ -87,7 +87,7 @@ export const CVDocument = ({ cvData }: CVDocumentProps) => {
 
       {/* Skills */}
       {sections.skills.length > 0 && (
-        <div>
+        <div className="cv-section">
           <h2 className="text-xl font-bold text-gray-800 mb-3 border-b border-gray-300 pb-1">
             Skills
           </h2>
@@ -104,13 +104,13 @@ export const CVDocument = ({ cvData }: CVDocumentProps) => {
 
       {/* Custom Sections */}
       {sections.customSections.map((section) => (
-        <div key={section.id}>
+        <div key={section.id} className="cv-section">
           <h2 className="text-xl font-bold text-gray-800 mb-3 border-b border-gray-300 pb-1">
             {section.title}
           </h2>
           <div className="space-y-3">
             {section.items.map((item) => (
-              <div key={item.id}>
+              <div key={item.id} className="cv-item">
                 <div className="flex justify-between items-start mb-1">
                   <div>
                     <h3 className="font-semibold text-gray-800">{item.title}</h3>

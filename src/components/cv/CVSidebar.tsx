@@ -1,4 +1,4 @@
-import { Plus, FileText, User, Briefcase, GraduationCap, Award } from "lucide-react";
+import { Plus, FileText, User, Briefcase, GraduationCap, Award, TestTube } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -23,9 +23,10 @@ interface CVSidebarProps {
   cvData: CVData;
   updatePersonalInfo: (updates: Partial<CVData['personalInfo']>) => void;
   updateSections: (updates: Partial<CVData['sections']>) => void;
+  loadSampleData: () => void;
 }
 
-export const CVSidebar = ({ cvData, updatePersonalInfo, updateSections }: CVSidebarProps) => {
+export const CVSidebar = ({ cvData, updatePersonalInfo, updateSections, loadSampleData }: CVSidebarProps) => {
   return (
     <Sidebar className="w-80 border-r border-border">
       <div className="flex items-center justify-between p-4 border-b border-border">
@@ -33,7 +34,16 @@ export const CVSidebar = ({ cvData, updatePersonalInfo, updateSections }: CVSide
           <FileText className="h-5 w-5 text-primary" />
           <h1 className="font-semibold text-foreground">CV Builder</h1>
         </div>
-        <SidebarTrigger />
+        <div className="flex items-center gap-2">
+          <SidebarMenuButton 
+            onClick={loadSampleData}
+            className="h-8 w-8 p-0"
+            title="Load Sample Data"
+          >
+            <TestTube className="h-4 w-4" />
+          </SidebarMenuButton>
+          <SidebarTrigger />
+        </div>
       </div>
       
       <SidebarContent>
