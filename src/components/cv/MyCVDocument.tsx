@@ -36,63 +36,58 @@ interface MyCVDocumentProps {
 }
 
 // Create Document Component
-export const MyCVDocument = ({ cvData }: MyCVDocumentProps) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
-        <Text style={styles.fullName}>{cvData.personalInfo.fullName}</Text>
-        <Text>{cvData.personalInfo.email} | {cvData.personalInfo.phone}</Text>
-      </View>
-      
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Professional Experience</Text>
-        {(cvData?.sections?.experience || []).map((job, index) => (
-          // Add wrap={false} to a View to prevent it from splitting across pages
-          <View key={index} style={{ marginBottom: 10 }} wrap={false}>
-            <Text style={{ fontWeight: 'bold' }}>{job.position} at {job.company}</Text>
-            <Text>{job.startDate} - {job.endDate}</Text>
-            <Text>{job.description}</Text>
-          </View>
-        ))}
-      </View>
+export const MyCVDocument = ({ cvData }: MyCVDocumentProps) => {
+    const { personalInfo, sections } = cvData;
 
-      <View style={styles.section} wrap={false}>
-        <Text style={styles.sectionTitle}>Professional Experience</Text>
-        {(cvData?.sections?.experience || []).map((job, index) => (
-          // Add wrap={false} to a View to prevent it from splitting across pages
-          <View key={index} style={{ marginBottom: 10 }} wrap={false}>
-            <Text style={{ fontWeight: 'bold' }}>{job.position} at {job.company}</Text>
-            <Text>{job.startDate} - {job.endDate}</Text>
-            <Text>{job.description}</Text>
-          </View>
-        ))}
-      </View>
+    return (
+        <Document>
+            <Page size="A4" style={styles.page}>
+                <View style={styles.header}>
+                    <Text style={styles.fullName}>{personalInfo.fullName}</Text>
+                    <Text>{personalInfo.email} | {personalInfo.phone} | {personalInfo.address}</Text>
+                    <Text>{personalInfo.summary}</Text>
+                </View>
+                
+                <View style={styles.section}>
+                    <Text style={styles.sectionTitle}>Professional Experience</Text>
+                    {(sections?.experience || []).map((job, index) => (
+                        <View key={index} style={{ marginBottom: 10 }} wrap={false}>
+                            <Text style={{ fontWeight: 'bold' }}>{job.position} at {job.company}</Text>
+                            <Text>{job.startDate} - {job.endDate}</Text>
+                            <Text>{job.description}</Text>
+                        </View>
+                    ))}
+                </View>
 
-      <View style={styles.section} wrap={false}>
-        <Text style={styles.sectionTitle}>Professional Experience</Text>
-        {(cvData?.sections?.experience || []).map((job, index) => (
-          // Add wrap={false} to a View to prevent it from splitting across pages
-          <View key={index} style={{ marginBottom: 10 }} wrap={false}>
-            <Text style={{ fontWeight: 'bold' }}>{job.position} at {job.company}</Text>
-            <Text>{job.startDate} - {job.endDate}</Text>
-            <Text>{job.description}</Text>
-          </View>
-        ))}
-      </View>
+                <View style={styles.section}>
+                    <Text style={styles.sectionTitle}>Education</Text>
+                    {(sections?.education || []).map((edu, index) => (
+                        <View key={index} style={{ marginBottom: 10 }} wrap={false}>
+                            <Text style={{ fontWeight: 'bold' }}>{edu.degree} at {edu.institution}</Text>
+                            <Text>{edu.startDate} - {edu.endDate}</Text>
+                            <Text>{edu.description}</Text>
+                        </View>
+                    ))}
+                </View>
 
-      <View style={styles.section} wrap={false}>
-        <Text style={styles.sectionTitle}>Professional Experience</Text>
-        {(cvData?.sections?.experience || []).map((job, index) => (
-          // Add wrap={false} to a View to prevent it from splitting across pages
-          <View key={index} style={{ marginBottom: 10 }} wrap={false}>
-            <Text style={{ fontWeight: 'bold' }}>{job.position} at {job.company}</Text>
-            <Text>{job.startDate} - {job.endDate}</Text>
-            <Text>{job.description}</Text>
-          </View>
-        ))}
-      </View>
+                <View style={styles.section}>
+                    <Text style={styles.sectionTitle}>Skills</Text>
+                    <Text>{(sections?.skills?.map(skill => skill.name) || []).join(', ')}</Text>
+                </View>
 
-      {/* Add other sections like Education, Skills, etc. */}
-    </Page>
-  </Document>
-);
+                {sections?.customSections?.map((section, index) => (
+                    <View key={index} style={styles.section}>
+                        <Text style={styles.sectionTitle}>{section.title}</Text>
+                        {(section.items || []).map((item, itemIdx) => (
+                            <View key={itemIdx} style={{ marginBottom: 8 }} wrap={false}>
+                                <Text style={{ fontWeight: 'bold' }}>{item.title}</Text>
+                                {item.description && <Text>{item.description}</Text>}
+                            </View>
+                        ))}
+                    </View>
+                ))}
+
+            </Page>
+        </Document>
+    );
+};

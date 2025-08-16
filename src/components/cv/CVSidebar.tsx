@@ -30,7 +30,7 @@ interface CVSidebarProps {
 
 export const CVSidebar = ({ cvData, updatePersonalInfo, updateSections, updateLayout, loadSampleData }: CVSidebarProps) => {
   return (
-    <Sidebar className="w-80 border-r border-border">
+    <Sidebar className="w-[500px] border-r border-border"> 
       <div className="flex items-center justify-between p-4 border-b border-border">
         <div className="flex items-center gap-2">
           <FileText className="h-5 w-5 text-primary" />
@@ -51,7 +51,7 @@ export const CVSidebar = ({ cvData, updatePersonalInfo, updateSections, updateLa
       <SidebarContent>
         <ScrollArea className="flex-1">
           <Tabs defaultValue="personal" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mx-4 my-2">
+            <TabsList className="grid w-full grid-cols-3 px-4 my-2">
               <TabsTrigger value="personal" className="text-xs">Personal</TabsTrigger>
               <TabsTrigger value="sections" className="text-xs">Sections</TabsTrigger>
               <TabsTrigger value="layout" className="text-xs">Layout</TabsTrigger>
@@ -60,8 +60,8 @@ export const CVSidebar = ({ cvData, updatePersonalInfo, updateSections, updateLa
             <TabsContent value="personal" className="px-4 pb-4">
               <SidebarGroup>
                 <SidebarGroupLabel className="flex items-center gap-2">
-                  <User className="h-4 w-4" />
                   Personal Information
+                  <User className="h-4 w-4" />
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
                   <PersonalInfoForm 
