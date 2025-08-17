@@ -4,6 +4,7 @@ export interface PersonalInfo {
   phone: string;
   address: string;
   summary: string;
+  profilePicture?: string;
 }
 
 export interface ExperienceItem {

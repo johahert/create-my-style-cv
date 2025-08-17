@@ -1,5 +1,5 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 import { CVData } from "./types";
 
 // --- STYLES ---
@@ -81,6 +81,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
+  },
+  // Profile picture styles
+  profilePictureContainer: {
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  profilePicture: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    objectFit: 'cover',
   },
 });
 
@@ -186,6 +198,29 @@ export const MyCVDocument = ({ cvData }: { cvData: CVData }) => {
             {personalInfo.phone && ` | ${personalInfo.phone}`}
             {personalInfo.address && ` | ${personalInfo.address}`}
           </Text>
+          {personalInfo.profilePicture ? (
+            <View style={styles.profilePictureContainer}>
+              <Image
+                source={{ uri: personalInfo.profilePicture }}
+                style={styles.profilePicture}
+              />
+            </View>
+          ) : (
+            <View style={styles.profilePictureContainer}>
+                <View
+                    style={{
+                        width: 80,
+                        height: 80,
+                        borderRadius: 40,
+                        backgroundColor: '#eee',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        display: 'flex',
+                    }}
+                >
+                </View>
+            </View>
+          )}
         </View>
 
         {/* Summary (always full width) */}

@@ -10,7 +10,8 @@ const initialCVData: CVData = {
     email: "",
     phone: "",
     address: "",
-    summary: ""
+    summary: "",
+    profilePicture: ""
   },
   sections: {
     experience: [],
@@ -61,7 +62,8 @@ export const CVMaker = () => {
         email: "john.smith@email.com",
         phone: "+1 (555) 123-4567",
         address: "123 Tech Street, San Francisco, CA 94102",
-        summary: "Experienced software engineer with 8+ years of expertise in full-stack development, cloud architecture, and team leadership. Proven track record of delivering scalable solutions and mentoring junior developers."
+        summary: "Experienced software engineer with 8+ years of expertise in full-stack development, cloud architecture, and team leadership. Proven track record of delivering scalable solutions and mentoring junior developers.",
+        profilePicture: ""
       },
       sections: {
         experience: [
