@@ -134,6 +134,7 @@ export const CVSidebar = ({ cvData, updatePersonalInfo, updateSections, updateLa
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
                   <LayoutControls 
+                    customSections={cvData?.sections?.customSections}
                     layout={cvData.layout}
                     updateLayout={updateLayout}
                   />

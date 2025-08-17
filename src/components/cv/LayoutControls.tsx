@@ -1,7 +1,7 @@
 import { Columns2, Columns, GripVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CVLayout } from "./types";
+import { CustomSection, CVLayout } from "./types";
 import {
   DndContext,
   closestCenter,
@@ -25,6 +25,7 @@ import { CSS } from '@dnd-kit/utilities';
 interface LayoutControlsProps {
   layout: CVLayout;
   updateLayout: (updates: Partial<CVLayout>) => void;
+  customSections: CustomSection[];
 }
 
 const SortableSection = ({ id, title }: { id: string; title: string }) => {
@@ -57,7 +58,7 @@ const SortableSection = ({ id, title }: { id: string; title: string }) => {
   );
 };
 
-export const LayoutControls = ({ layout, updateLayout }: LayoutControlsProps) => {
+export const LayoutControls = ({ layout, updateLayout, customSections }: LayoutControlsProps) => {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -69,8 +70,10 @@ export const LayoutControls = ({ layout, updateLayout }: LayoutControlsProps) =>
     experience: "Experience",
     education: "Education", 
     skills: "Skills",
-    customSections: "Custom Sections"
+    ...Object.fromEntries(customSections.map(section => [section.title.toLocaleLowerCase(), section.title]))
   };
+
+  console.log(layout)
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;

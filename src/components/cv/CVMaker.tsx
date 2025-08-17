@@ -3,7 +3,6 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { CVSidebar } from "./CVSidebar";
 import { CVPreview } from "./CVPreview";
 import { CVData } from "./types";
-import { useDebounce } from "@/hooks/use-debounce";
 
 const initialCVData: CVData = {
   personalInfo: {

@@ -25,7 +25,7 @@ export const CVPreview = ({ cvData }: CVPreviewProps) => {
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between p-4 border-b">
         <h2 className="font-semibold">CV Preview</h2>
-        
+
         {/* This creates a download button that generates the PDF on the fly */}
         <PDFDownloadLink document={<MyCVDocument cvData={cvData} />} fileName={fileName}>
           {({ loading }) => (
