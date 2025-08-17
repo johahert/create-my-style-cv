@@ -25,15 +25,19 @@ const styles = StyleSheet.create({
   },
   // Header styles
   header: {
-    textAlign: 'center',
-    marginBottom: 20,
+    /* marginBottom: 20,
     borderBottom: '2px solid #333',
-    paddingBottom: 10,
+    paddingBottom: 10, */
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   fullName: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 4,
+    marginBottom: 20,
   },
   contactInfo: {
     fontSize: 9,
@@ -84,9 +88,6 @@ const styles = StyleSheet.create({
   },
   // Profile picture styles
   profilePictureContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 10,
   },
   profilePicture: {
     width: 80,
@@ -190,37 +191,38 @@ export const MyCVDocument = ({ cvData }: { cvData: CVData }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+
         {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.fullName}>{personalInfo.fullName || "Your Name"}</Text>
-          <Text style={styles.contactInfo}>
+        <View style={{borderBottom: '2px solid #333', paddingBottom: 10, marginBottom: 20}}>
+
+            <View style={styles.header}>
+                <Text style={styles.fullName}>{personalInfo.fullName || "Your Name"}</Text>
+                {personalInfo.profilePicture ? (
+                    <View style={styles.profilePictureContainer}>
+                    <Image
+                        source={{ uri: personalInfo.profilePicture }}
+                        style={styles.profilePicture}
+                        />
+                    </View>
+                ) : (
+                    <View style={styles.profilePictureContainer}>
+                        <View
+                            style={{
+                                width: 80,
+                                height: 80,
+                                borderRadius: 40,
+                                backgroundColor: '#eee',
+                            }}
+                            >
+                        </View>
+                    </View>
+                )}
+            </View>
+            <Text style={styles.contactInfo}>
             {personalInfo.email}
             {personalInfo.phone && ` | ${personalInfo.phone}`}
             {personalInfo.address && ` | ${personalInfo.address}`}
-          </Text>
-          {personalInfo.profilePicture ? (
-            <View style={styles.profilePictureContainer}>
-              <Image
-                source={{ uri: personalInfo.profilePicture }}
-                style={styles.profilePicture}
-              />
-            </View>
-          ) : (
-            <View style={styles.profilePictureContainer}>
-                <View
-                    style={{
-                        width: 80,
-                        height: 80,
-                        borderRadius: 40,
-                        backgroundColor: '#eee',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        display: 'flex',
-                    }}
-                >
-                </View>
-            </View>
-          )}
+            </Text>
         </View>
 
         {/* Summary (always full width) */}
